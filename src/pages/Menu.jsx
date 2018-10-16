@@ -24,9 +24,8 @@ class Menu extends Component {
     
     return (
       <Navbar bg="primary" variant="dark">
-        <Navbar.Brand href="/">PetMonday</Navbar.Brand>
         <Nav className="mr-auto">
-          <Nav.Link to="/">Home</Nav.Link>
+          <Nav.Link to="/">PetMonday</Nav.Link>
         </Nav>
         <Nav className="ml-auto">
           {this.renderLogin()}

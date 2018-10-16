@@ -7,6 +7,7 @@ import { Home, Login, Menu } from './pages';
 import { usuarioLogin, usuarioLogout } from './state/actions/UsuarioActions';
 
 import './App.css';
+import '../node_modules/font-awesome/css/font-awesome.min.css';
 
 
 const store = createStore({});

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import img from './img/home.jpg';
-import {Button} from 'react-bootstrap';
+import { Button, Form, Col } from 'react-bootstrap';
 
 const StyledContent = styled.div`
     background-image: url(${img});
@@ -13,9 +13,9 @@ const StyledContent = styled.div`
     
 `;
 
-const StyledButton = styled(Button)`
+const StyledForm = styled(Form)`
   margin-left: 100px;
-  width: 10%;
+  width: 25%;
 `;
 
 class Home extends Component {
@@ -23,7 +23,22 @@ class Home extends Component {
   render() {
     return (
       <StyledContent>
-         <StyledButton variant="primary" size="lg">Selecionar</StyledButton>
+        <StyledForm>
+          <Form.Row>
+            <Col>
+              <Form.Control as="select">
+                <option>Escolha sua cidade</option>
+                <option>...</option>
+              </Form.Control>
+            </Col>
+            <Col>
+              <Button variant="primary" type="submit">
+                <i className="fa fa-search"/>
+                Selecione 
+          </Button>
+            </Col>
+          </Form.Row>
+        </StyledForm>
       </StyledContent>
     );
   }
