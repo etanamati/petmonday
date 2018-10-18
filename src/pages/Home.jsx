@@ -7,7 +7,7 @@ const StyledContent = styled.div`
     background-image: url(${img});
     background-size: cover;
     background-repeat: no-repeat;
-    height: 93.3vh;
+    height: 93vh;
     display: flex;
     align-items: center;
     
@@ -19,6 +19,29 @@ const StyledForm = styled(Form)`
 `;
 
 class Home extends Component {
+  state = {
+    cidades: [
+      {
+        id: '1',
+        descricao: 'Maringá'
+      }
+    ],
+    selecionada: undefined
+  }
+
+  renderOpcoesCidade = () => {
+    return (this.state.cidades.map(cidade => <option key={cidade.id} value={cidade.id}>{cidade.descricao}</option>));
+  }
+
+  onChange = (event) => {
+    this.setState({selecionada: event.target.value})
+  }
+
+  onClick = () => {
+    this.props.history.push(`/cidade/${this.state.selecionada}`);
+  }
+
+  isButtonEnable = () => this.state.selecionada ? true : false;
 
   render() {
     return (
@@ -26,16 +49,17 @@ class Home extends Component {
         <StyledForm>
           <Form.Row>
             <Col>
-              <Form.Control as="select">
-                <option>Escolha sua cidade</option>
-                <option>...</option>
+              <Form.Control as="select" onChange={this.onChange}
+              value={this.state.selecionada}>
+                <option value="">Escolha sua cidade</option>
+                {this.renderOpcoesCidade()}
               </Form.Control>
             </Col>
             <Col>
-              <Button variant="primary" type="submit">
+              <Button variant={this.isButtonEnable() ? "primary" : "secondary"} disabled={!this.isButtonEnable()} onClick={this.onClick}>
                 <i className="fa fa-search"/>
-                Selecione 
-          </Button>
+                Selecione
+              </Button>
             </Col>
           </Form.Row>
         </StyledForm>
