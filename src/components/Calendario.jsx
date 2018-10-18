@@ -1,13 +1,9 @@
 import React, {Component} from 'react';
 import ReactWeeklyDayPicker from 'react-weekly-day-picker';
-import moment from 'moment';
 
 class Calendario extends Component {
   
   render(){
-    console.log(moment.locale());
-    console.log(moment().format('MMM D'));
-    console.log(moment().format('ddd'));
     const {handleSelectDay} = this.props;
     return (<ReactWeeklyDayPicker
       selectDay={handleSelectDay} 

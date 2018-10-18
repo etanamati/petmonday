@@ -1,52 +1,19 @@
 import React, {Component} from 'react';
-import {Card, 
-  Button, 
-  ListGroup, 
-  ListGroupItem,
+import {
   Container,
   Row, 
   Col} from 'react-bootstrap';
+import {Estabelecimento} from '../components';
+import EstabelecimentoService from '../services/EstabelecimentoService';
 
 class Cidade extends Component {
   state = {
-    estabelecimentos: [
-      { 
-        id: '1',
-        nome: 'PetShop',
-        endereco: 'Rua teste',
-        numero: 14,
-        telefone: '(44) 3030-7070',
-        urlFoto: 'https://s3.us-east-2.amazonaws.com/app-documento/background-business-clean-811101.jpg'
-      },
-      { 
-        id: '2',
-        nome: 'PetShop',
-        endereco: 'Rua teste',
-        numero: 14,
-        telefone: '(44) 3030-7070',
-        urlFoto: 'https://s3.us-east-2.amazonaws.com/app-documento/background-business-clean-811101.jpg'
-      },
-      { 
-        id: '3',
-        nome: 'PetShop',
-        endereco: 'Rua teste',
-        numero: 14,
-        telefone: '(44) 3030-7070',
-        urlFoto: 'https://s3.us-east-2.amazonaws.com/app-documento/background-business-clean-811101.jpg'
-      },
-      { 
-        id: '4',
-        nome: 'PetShop',
-        endereco: 'Rua teste',
-        numero: 14,
-        telefone: '(44) 3030-7070',
-        urlFoto: 'https://s3.us-east-2.amazonaws.com/app-documento/background-business-clean-811101.jpg'
-      }
-    ]
+    estabelecimentos: []
   };
   
   componentDidMount(){
-    //this.props.match.params.id
+    EstabelecimentoService.getEstabelecimentos({uid: this.props.match.params.id})
+      .then((estabelecimentos => this.setState({estabelecimentos})));
   }
 
   onClick = (estabelecimento) => {
@@ -55,22 +22,8 @@ class Cidade extends Component {
 
   renderEstabelecimentos = () => {
     return this.state.estabelecimentos.map(estabelecimento => (
-      <Col key={estabelecimento.id}>
-        <Card style={{ width: '20rem', marginTop: '50px' }}>
-          <Card.Img variant="top" src={estabelecimento.urlFoto} />
-          <Card.Body>
-            <Card.Title>{estabelecimento.nome}</Card.Title>
-            <Card.Text>
-              {estabelecimento.endereco} - {estabelecimento.numero}
-            </Card.Text>
-          </Card.Body>
-          <ListGroup className="list-group-flush">
-            <ListGroupItem>Telefone: {estabelecimento.telefone}</ListGroupItem>
-          </ListGroup>
-          <Card.Body>
-            <Button variant="primary" onClick={() => this.onClick(estabelecimento.id)}>Selecione</Button>
-          </Card.Body>
-        </Card>
+      <Col key={estabelecimento.uid}>
+        <Estabelecimento estabelecimento={estabelecimento} handleClick={this.onClick}/>
       </Col>
     ))
   }
@@ -78,6 +31,7 @@ class Cidade extends Component {
   render(){
     return (
       <Container>
+          <h1>Agendamento de Banho e Tosa</h1>
           <Row>
             {this.renderEstabelecimentos()}
           </Row>

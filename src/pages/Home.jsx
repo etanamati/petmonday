@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import img from './img/home.jpg';
 import { Button, Form, Col } from 'react-bootstrap';
+import CidadeService from '../services/CidadeService';
 
 const StyledContent = styled.div`
     background-image: url(${img});
@@ -20,17 +21,16 @@ const StyledForm = styled(Form)`
 
 class Home extends Component {
   state = {
-    cidades: [
-      {
-        id: '1',
-        descricao: 'Maringá'
-      }
-    ],
+    cidades: [],
     selecionada: undefined
   }
 
+  componentDidMount(){
+    CidadeService.getCidades().then((cidades) => this.setState({cidades}));
+  }
+
   renderOpcoesCidade = () => {
-    return (this.state.cidades.map(cidade => <option key={cidade.id} value={cidade.id}>{cidade.descricao}</option>));
+    return (this.state.cidades.map(cidade => <option key={cidade.uid} value={cidade.uid}>{cidade.descricao}</option>));
   }
 
   onChange = (event) => {

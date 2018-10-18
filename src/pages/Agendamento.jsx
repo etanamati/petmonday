@@ -1,9 +1,9 @@
-import {Button, Container} from 'react-bootstrap';
+import {Container} from 'react-bootstrap';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React, {Component} from 'react';
 import styled from 'styled-components';
-import Calendario from '../components/Calendario';
+import {Calendario, ButtonHorario, ModalAlert} from '../components';
 
 const StyledContent = styled.div`
     background-size: cover;
@@ -14,13 +14,11 @@ const StyledContent = styled.div`
     justify-content: space-between;
 `;
 
-const StyledButton = styled(Button)`
-  width: 25%;
-  margin-top: 5px;
-`;
+
 
 class Agendamento extends Component {
   state = {
+    showModal: false,
     horarios: [
       { disponivel: true, hora: '8:00' },
       { disponivel: true, hora: '9:00' },
@@ -41,29 +39,41 @@ class Agendamento extends Component {
 
   onClick = event => {
     
-    console.log(event)
+    if (!this.props.usuarioLogado) {
+      this.setState({showModal: true});
+    }
   }
 
   renderHorarios = () => {
     return this.state.horarios.map(hora => {
         return (
-            <StyledButton variant="primary" data-id={hora.hora} onClick={() => this.onClick(hora)}>{hora.hora}</StyledButton>
+            <ButtonHorario agendado={false} handleClick={this.onClick} hora={hora} key={hora.hora} />
         )
       }
     );
   }
 
+  handleCloseModal = () => {
+    this.setState({showModal: false});
+  }
+
   handleSelectDay = (dia) => {
-    console.log('Teste => ', dia)
   }
 
   render(){
     return (
       <Container>
+        <h1>Selecione um horário e agende o serviço de Banho e Tosa</h1>
         <Calendario handleSelectDay={this.handleSelectDay}/>
         <StyledContent>
           {this.renderDia()}
         </StyledContent>
+        <ModalAlert 
+          show={this.state.showModal} 
+          title={"Faça Login!"} 
+          subTitle={""} 
+          content="Necessário estar logado para fazer o agendamento!" 
+          handleClose={this.handleCloseModal}/>
       </Container>
 
     )
