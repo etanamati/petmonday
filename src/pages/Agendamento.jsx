@@ -1,9 +1,12 @@
-import {Container} from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import PropTypes from 'prop-types';
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
-import {Calendario, ButtonHorario, ModalAlert} from '../components';
+import { Calendario, ButtonHorario, ModalAlert, ModalConfirm } from '../components';
+import { horariosDisponiveis } from '../constantes';
+import AgendamentoService from '../services/AgendamentoService';
 
 const StyledContent = styled.div`
     background-size: cover;
@@ -14,66 +17,112 @@ const StyledContent = styled.div`
     justify-content: space-between;
 `;
 
-
+const statusAgendamento = {
+  agendado: 'agendado',
+  selecionado: 'selecionado',
+  disponivel: 'disponivel'
+}
 
 class Agendamento extends Component {
+  initialStateHorarios = () => {
+    return horariosDisponiveis.map(hora => ({
+      hora,
+      status: statusAgendamento.disponivel
+    }))
+  }
+
   state = {
     showModal: false,
-    horarios: [
-      { disponivel: true, hora: '8:00' },
-      { disponivel: true, hora: '9:00' },
-      { disponivel: true, hora: '10:00' },
-      { disponivel: true, hora: '11:00' },
-      { disponivel: true, hora: '12:00' },
-      { disponivel: true, hora: '13:00' },
-      { disponivel: true, hora: '14:00' },
-      { disponivel: true, hora: '15:00' },
-      { disponivel: true, hora: '16:00' },
-      { disponivel: true, hora: '17:00' }
-    ]
+    showModalConfirm: false,
+    data: new Date(),
+    hora: '',
+    horarios: this.initialStateHorarios()
+  }
+
+  componentDidMount() {
+    const estabelecimento = this.props.match.params.id
+    this.setState({ estabelecimento });
+    this.atualizarAgendamentos(estabelecimento, this.state.data);
+  }
+
+  atualizarAgendamentos = (estabelecimento, data) => {
+    this.setState({ loading: true });
+
+    AgendamentoService.getAgendamentos(estabelecimento, moment(data).format('DD/MM/YYYY'))
+      .then((agendamentos => {
+        const agendamentosAtualizados = this.initialStateHorarios().map(horario => ({
+          hora: horario.hora,
+          status: agendamentos.some((element) => element.hora === horario.hora)
+            ? statusAgendamento.agendado
+            : statusAgendamento.disponivel
+        }));
+        this.setState({ horarios: agendamentosAtualizados });
+      }))
+      .finally(() => this.setState({ loading: false }));
   }
 
   renderDia = () => {
     return (this.renderHorarios());
   }
 
-  onClick = event => {
-    
-    if (!this.props.usuarioLogado) {
-      this.setState({showModal: true});
-    }
-  }
-
   renderHorarios = () => {
     return this.state.horarios.map(hora => {
-        return (
-            <ButtonHorario agendado={false} handleClick={this.onClick} hora={hora} key={hora.hora} />
-        )
-      }
+      return (
+        <ButtonHorario handleClick={this.handleSelectHora} hora={hora} key={hora.hora} status={hora.status} />
+      )
+    }
     );
   }
 
+  handleSelectHora = event => {
+    if (!this.props.usuarioLogado) {
+      this.setState({ showModal: true });
+    } else {
+      if (event.status === statusAgendamento.disponivel) {
+        this.setState({ status: statusAgendamento.selecionado, hora: event.hora, showModalConfirm: true });
+      }
+    }
+  }
+
+  handleConfirm = () => {
+    const {estabelecimento, data, hora} = this.state;
+    AgendamentoService.agendar(moment(data).format('DD/MM/YYYY'), hora, estabelecimento)
+      .then(() => this.atualizarAgendamentos(estabelecimento, data))
+      .finally(() => this.handleCloseModal());
+  }
+
   handleCloseModal = () => {
-    this.setState({showModal: false});
+    this.setState({ showModal: false, showModalConfirm: false });
   }
 
-  handleSelectDay = (dia) => {
+  handleSelectDay = (listaData) => {
+    const data = listaData[0];
+    this.setState({ data }, () => this.atualizarAgendamentos(this.state.estabelecimento, data));
   }
 
-  render(){
+  render() {
+    const {data, showModal, showModalConfirm} = this.state;
+
     return (
       <Container>
-        <h1>Selecione um horário e agende o serviço de Banho e Tosa</h1>
-        <Calendario handleSelectDay={this.handleSelectDay}/>
         <StyledContent>
+          <h1>Agendamento Banho e Tosa</h1>
+          <Calendario handleSelectDay={this.handleSelectDay} selectedDay={data} />
           {this.renderDia()}
+          <ModalAlert
+            show={showModal}
+            title={"Faça Login!"}
+            subTitle={""}
+            content="Necessário estar logado para fazer o agendamento!"
+            handleClose={this.handleCloseModal} />
+          <ModalConfirm
+            show={showModalConfirm}
+            title={"Confirmação!"}
+            subTitle={""}
+            content="Deseja confirma o agendamento?"
+            handleClose={this.handleCloseModal}
+            handleConfirm={this.handleConfirm} />
         </StyledContent>
-        <ModalAlert 
-          show={this.state.showModal} 
-          title={"Faça Login!"} 
-          subTitle={""} 
-          content="Necessário estar logado para fazer o agendamento!" 
-          handleClose={this.handleCloseModal}/>
       </Container>
 
     )

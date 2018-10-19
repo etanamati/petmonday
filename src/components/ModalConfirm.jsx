@@ -1,9 +1,8 @@
 import React from 'react';
 import {Button, Modal} from 'react-bootstrap';
-import PropTypes from 'prop-types';
 
-const ModalAlert = (props) => {
-  const {show, title, subTitle, content, handleClose} = props;
+const ModalConfirm = (props) => {
+  const {show, title, subTitle, content, handleClose, handleConfirm} = props;
   return (
       <div>
         <Modal show={show} onHide={handleClose}>
@@ -19,19 +18,12 @@ const ModalAlert = (props) => {
             </p>
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={handleClose}>Fechar</Button>
+            <Button variant="secundary" onClick={handleClose}>Fechar</Button>
+            <Button variant="success" onClick={handleConfirm}>Confirmar</Button>
           </Modal.Footer>
         </Modal>
       </div>
     )
 }
 
-ModalAlert.propTypes = {
-  show: PropTypes.bool,
-  title: PropTypes.string,
-  subTitle: PropTypes.string,
-  content: PropTypes.string,
-  handleClose: PropTypes.func
-}
-
-export default ModalAlert;
+export default ModalConfirm;

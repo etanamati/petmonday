@@ -33,7 +33,7 @@ class Menu extends Component {
         </Nav>
       </Navbar>
     )
-        }
+  }
 }
 
 Menu.propTypes = {

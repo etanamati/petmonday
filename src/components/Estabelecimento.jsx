@@ -1,5 +1,6 @@
 import React from 'react';
 import {Card, Button, ListGroup, ListGroupItem} from 'react-bootstrap';
+import PropTypes from 'prop-types';
 
 const Estabelecimento = props => {
   const {estabelecimento, handleClick} = props;
@@ -14,12 +15,18 @@ const Estabelecimento = props => {
           </Card.Body>
           <ListGroup className="list-group-flush">
             <ListGroupItem>Telefone: {estabelecimento.telefone}</ListGroupItem>
+            <ListGroupItem>Serviço: {estabelecimento.servico}</ListGroupItem>
           </ListGroup>
           <Card.Body>
             <Button variant="primary" onClick={() => handleClick(estabelecimento.uid)}>Selecione</Button>
           </Card.Body>
         </Card>
   );
+}
+
+Estabelecimento.propTypes = {
+  estabelecimento: PropTypes.object,
+  handleClick: PropTypes.func
 }
 
 export default Estabelecimento;

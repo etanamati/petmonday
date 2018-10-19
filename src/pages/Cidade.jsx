@@ -31,7 +31,6 @@ class Cidade extends Component {
   render(){
     return (
       <Container>
-          <h1>Agendamento de Banho e Tosa</h1>
           <Row>
             {this.renderEstabelecimentos()}
           </Row>

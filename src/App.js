@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import AuthService from './services/AuthService';
 import createStore from './createStore';
-import { Home, Login, Menu, Cidade, Agendamento } from './pages';
+import { Home, Menu, Cidade, Agendamento, NotFound } from './pages';
 import { usuarioLogin, usuarioLogout } from './state/actions/UsuarioActions';
 import moment from 'moment';
 import 'moment/locale/pt-br';
@@ -34,9 +34,9 @@ class App extends Component {
             <Menu />
             <Switch>
               <Route path="/" exact component={Home} />
-              <Route path="/login" exact component={Login} />
               <Route path="/cidade/:id" exact component={Cidade} />
               <Route path="/agendamento/:id" exact component={Agendamento} />
+              <Route component={NotFound} />
             </Switch>
           </React.Fragment>
         </Provider>
