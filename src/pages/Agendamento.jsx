@@ -1,6 +1,5 @@
 import { Container } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import moment from 'moment';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import styled from 'styled-components';
@@ -48,7 +47,7 @@ class Agendamento extends Component {
   atualizarAgendamentos = (estabelecimento, data) => {
     this.setState({ loading: true });
 
-    AgendamentoService.getAgendamentos(estabelecimento, moment(data).format('DD/MM/YYYY'))
+    AgendamentoService.getAgendamentos(estabelecimento, this.formatDate(data))
       .then((agendamentos => {
         const agendamentosAtualizados = this.initialStateHorarios().map(horario => ({
           hora: horario.hora,
@@ -86,7 +85,7 @@ class Agendamento extends Component {
 
   handleConfirm = () => {
     const {estabelecimento, data, hora} = this.state;
-    AgendamentoService.agendar(moment(data).format('DD/MM/YYYY'), hora, estabelecimento)
+    AgendamentoService.agendar(this.formatDate(data), hora, estabelecimento)
       .then(() => this.atualizarAgendamentos(estabelecimento, data))
       .finally(() => this.handleCloseModal());
   }
@@ -96,8 +95,12 @@ class Agendamento extends Component {
   }
 
   handleSelectDay = (listaData) => {
-    const data = listaData[0];
+    const data = new Date(listaData[0]);
     this.setState({ data }, () => this.atualizarAgendamentos(this.state.estabelecimento, data));
+  }
+
+  formatDate = (date) => {
+    return ("0" + date.getDate()).slice(-2) + "/" + ("0"+(date.getMonth()+1)).slice(-2) + "/" + date.getFullYear();
   }
 
   render() {
@@ -137,4 +140,5 @@ const mapStateToProps = store => ({
   usuarioLogado: store.usuario.usuarioLogado
 })
 
-export default connect(mapStateToProps)(Agendamento);
+const ConnectedComponent = connect(mapStateToProps)(Agendamento);
+export {ConnectedComponent as default, Agendamento};

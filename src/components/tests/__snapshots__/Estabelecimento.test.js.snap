@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render app 1`] = `
+<ForwardRef(Bootstrap(Card))
+  style={
+    Object {
+      "marginTop": "50px",
+      "width": "20rem",
+    }
+  }
+>
+  <ForwardRef(Bootstrap(CardImg))
+    src=""
+    variant="top"
+  />
+  <ForwardRef(Bootstrap(CardBody))>
+    <ForwardRef(Bootstrap(CardTitle))>
+      PetShop
+    </ForwardRef(Bootstrap(CardTitle))>
+    <ForwardRef(Bootstrap(CardText))>
+      Rua Teste
+       - 
+      14
+    </ForwardRef(Bootstrap(CardText))>
+  </ForwardRef(Bootstrap(CardBody))>
+  <ForwardRef
+    className="list-group-flush"
+  >
+    <ForwardRef(Bootstrap(ListGroupItem))>
+      Telefone: 
+      (44) 3030-7070
+    </ForwardRef(Bootstrap(ListGroupItem))>
+    <ForwardRef(Bootstrap(ListGroupItem))>
+      Serviço: 
+      Banho e Tosa
+    </ForwardRef(Bootstrap(ListGroupItem))>
+  </ForwardRef>
+  <ForwardRef(Bootstrap(CardBody))>
+    <ForwardRef(Bootstrap(Button))
+      onClick={[Function]}
+      variant="primary"
+    >
+      Selecione
+    </ForwardRef(Bootstrap(Button))>
+  </ForwardRef(Bootstrap(CardBody))>
+</ForwardRef(Bootstrap(Card))>
+`;

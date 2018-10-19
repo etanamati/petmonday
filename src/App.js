@@ -5,13 +5,10 @@ import AuthService from './services/AuthService';
 import createStore from './createStore';
 import { Home, Menu, Cidade, Agendamento, NotFound } from './pages';
 import { usuarioLogin, usuarioLogout } from './state/actions/UsuarioActions';
-import moment from 'moment';
-import 'moment/locale/pt-br';
 
 import './App.css';
 import '../node_modules/font-awesome/css/font-awesome.min.css';
 
-moment.locale('pt-BR');
 const store = createStore({});
 
 class App extends Component {

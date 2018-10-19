@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render app 1`] = `
+<div>
+  <ForwardRef(Bootstrap(Modal))
+    show={true}
+  >
+    <ForwardRef(Bootstrap(ModalHeader))
+      closeButton={true}
+    >
+      <ForwardRef(Bootstrap(ModalTitle))>
+        ModalAlert
+      </ForwardRef(Bootstrap(ModalTitle))>
+    </ForwardRef(Bootstrap(ModalHeader))>
+    <ForwardRef(Bootstrap(ModalBody))>
+      <h4>
+        Sub Título
+      </h4>
+      <p>
+        Teste
+      </p>
+    </ForwardRef(Bootstrap(ModalBody))>
+    <ForwardRef(Bootstrap(ModalFooter))>
+      <ForwardRef(Bootstrap(Button))>
+        Fechar
+      </ForwardRef(Bootstrap(Button))>
+    </ForwardRef(Bootstrap(ModalFooter))>
+  </ForwardRef(Bootstrap(Modal))>
+</div>
+`;

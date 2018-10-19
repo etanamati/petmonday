@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render app 1`] = `
+<ForwardRef(Bootstrap(FormGroup))
+  controlId="1"
+>
+  <ForwardRef(ContextTransform)>
+    Label
+  </ForwardRef(ContextTransform)>
+  <ForwardRef(ContextTransform) />
+  <Component>
+    Help
+  </Component>
+</ForwardRef(Bootstrap(FormGroup))>
+`;

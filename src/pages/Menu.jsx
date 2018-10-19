@@ -44,4 +44,5 @@ const mapStateToProps = store => ({
   usuarioLogado: store.usuario.usuarioLogado
 })
 
-export default connect(mapStateToProps)(Menu);
+const ConnectedComponent = connect(mapStateToProps)(Menu);
+export {ConnectedComponent as default, Menu};

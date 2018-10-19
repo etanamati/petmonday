@@ -13,9 +13,9 @@ const Field = ({ id, label, help, ...props }) => {
 }
 
 Field.propTypes = {
-  id: PropTypes.string.required,
-  label: PropTypes.string.required,
-  help: PropTypes.string.required
+  id: PropTypes.string,
+  label: PropTypes.string,
+  help: PropTypes.string
 }
 
 export default Field;

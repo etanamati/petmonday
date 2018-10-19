@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render app 1`] = `
+<Styled(Component)
+  onClick={[Function]}
+  variant="secondary"
+>
+  09:00
+</Styled(Component)>
+`;
