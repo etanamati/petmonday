@@ -1,5 +1,6 @@
 {
   "projects": {
-    "petmonday": "petmonday-c4c7f"
+    "petmonday": "petmonday-c4c7f",
+    "default": "petmonday-c4c7f"
   }
 }
