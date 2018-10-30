@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { Calendario, ButtonHorario, ModalAlert, ModalConfirm } from '../components';
 import { horariosDisponiveis } from '../constantes';
 import AgendamentoService from '../services/AgendamentoService';
+import { Wizard, WizardStep } from '../components';
 
 const StyledContent = styled.div`
     background-size: cover;
@@ -84,7 +85,7 @@ class Agendamento extends Component {
   }
 
   handleConfirm = () => {
-    const {estabelecimento, data, hora} = this.state;
+    const { estabelecimento, data, hora } = this.state;
     AgendamentoService.agendar(this.formatDate(data), hora, estabelecimento)
       .then(() => this.atualizarAgendamentos(estabelecimento, data))
       .finally(() => this.handleCloseModal());
@@ -100,32 +101,42 @@ class Agendamento extends Component {
   }
 
   formatDate = (date) => {
-    return ("0" + date.getDate()).slice(-2) + "/" + ("0"+(date.getMonth()+1)).slice(-2) + "/" + date.getFullYear();
+    return ("0" + date.getDate()).slice(-2) + "/" + ("0" + (date.getMonth() + 1)).slice(-2) + "/" + date.getFullYear();
   }
 
   render() {
-    const {data, showModal, showModalConfirm} = this.state;
+    const { data, showModal, showModalConfirm } = this.state;
 
     return (
-      <Container>
-        <StyledContent>
-          <h1>Agendamento Banho e Tosa</h1>
-          <Calendario handleSelectDay={this.handleSelectDay} selectedDay={data} />
-          {this.renderDia()}
-          <ModalAlert
-            show={showModal}
-            title={"Faça Login!"}
-            subTitle={""}
-            content="Necessário estar logado para fazer o agendamento!"
-            handleClose={this.handleCloseModal} />
-          <ModalConfirm
-            show={showModalConfirm}
-            title={"Confirmação!"}
-            subTitle={""}
-            content="Deseja confirma o agendamento?"
-            handleClose={this.handleCloseModal}
-            handleConfirm={this.handleConfirm} />
-        </StyledContent>
+      <Container style={{marginTop: 30}}>
+        <h1>Agendamento Banho e Tosa</h1>
+        <Wizard>
+          <WizardStep id={0} title="Horários">
+            <StyledContent>
+              <Calendario handleSelectDay={this.handleSelectDay} selectedDay={data} />
+              {this.renderDia()}
+              <ModalAlert
+                show={showModal}
+                title={"Faça Login!"}
+                subTitle={""}
+                content="Necessário estar logado para fazer o agendamento!"
+                handleClose={this.handleCloseModal} />
+              <ModalConfirm
+                show={showModalConfirm}
+                title={"Confirmação!"}
+                subTitle={""}
+                content="Deseja confirma o agendamento?"
+                handleClose={this.handleCloseModal}
+                handleConfirm={this.handleConfirm} />
+            </StyledContent>
+          </WizardStep>
+          <WizardStep id={1} title="Profissionais">
+            <h1>Profissionais</h1>
+          </WizardStep>
+          <WizardStep id={2} title="Resumo">
+            <h1>Resumo</h1>
+          </WizardStep>
+        </Wizard>
       </Container>
 
     )
@@ -141,4 +152,4 @@ const mapStateToProps = store => ({
 })
 
 const ConnectedComponent = connect(mapStateToProps)(Agendamento);
-export {ConnectedComponent as default, Agendamento};
+export { ConnectedComponent as default, Agendamento };

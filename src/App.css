@@ -32,6 +32,52 @@
   animation-delay: -0.15s;
 }
 
+.wizard {
+  counter-reset: stepNo;
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+.wizard-step {
+  -webkit-flex: 1 0 0px;
+      -ms-flex: 1 0 0px;
+          flex: 1 0 0px;
+  list-style: none;
+  padding: 0 2% 0 0;
+  position: relative;
+}
+
+.wizard-step::before {
+  border-top: 10px solid #333;
+  content: "";
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 15px;
+}
+
+.wizard-step:last-child {
+  border: 0;
+  -webkit-flex: 0 0 auto;
+      -ms-flex: 0 0 auto;
+          flex: 0 0 auto;
+  margin: 0;
+  padding: 0;
+}
+
+.wizard-step-link {
+  color: #333;
+  display: block;
+  font-size: 1rem;
+  font-weight: bold;
+  position: relative;
+  text-decoration: none;
+  z-index: 10;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
