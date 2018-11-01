@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import AuthService from './services/AuthService';
 import createStore from './createStore';
-import { Home, Menu, Cidade, Agendamento, NotFound } from './pages';
+import { Home, Menu, Cidade, AgendamentoWizard, NotFound } from './pages';
 import { usuarioLogin, usuarioLogout } from './state/actions/UsuarioActions';
 
 import './App.css';
@@ -32,7 +32,7 @@ class App extends Component {
             <Switch>
               <Route path="/" exact component={Home} />
               <Route path="/cidade/:id" exact component={Cidade} />
-              <Route path="/agendamento/:id" exact component={Agendamento} />
+              <Route path="/agendamento/:id" exact component={AgendamentoWizard} />
               <Route component={NotFound} />
             </Switch>
           </React.Fragment>

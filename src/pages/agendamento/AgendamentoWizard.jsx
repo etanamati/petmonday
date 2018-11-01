@@ -1,12 +1,12 @@
-import { Container } from 'react-bootstrap';
+import { Container, Form, FormControl, InputGroup } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Calendario, ButtonHorario, ModalAlert, ModalConfirm } from '../components';
-import { horariosDisponiveis } from '../constantes';
-import AgendamentoService from '../services/AgendamentoService';
-import { Wizard, WizardStep } from '../components';
+import { Calendario, ButtonHorario, ModalAlert, ModalConfirm } from '../../components';
+import { horariosDisponiveis } from '../../constantes';
+import AgendamentoService from '../../services/AgendamentoService';
+import { Wizard, WizardStep } from '../../components';
 
 const StyledContent = styled.div`
     background-size: cover;
@@ -108,10 +108,19 @@ class Agendamento extends Component {
     const { data, showModal, showModalConfirm } = this.state;
 
     return (
-      <Container style={{marginTop: 30}}>
+      <Container style={{ marginTop: 30 }}>
         <h1>Agendamento Banho e Tosa</h1>
         <Wizard>
-          <WizardStep id={0} title="Horários">
+          <WizardStep id={0} title="Profissionais">
+            <Form.Control as="select" onChange={this.onChange}
+              value={this.state.selecionada}>
+                <option value="">Escolha um profissional</option>
+              </Form.Control>
+            <InputGroup>
+              <FormControl as="textarea" />
+            </InputGroup>
+          </WizardStep>
+          <WizardStep id={1} title="Horários">
             <StyledContent>
               <Calendario handleSelectDay={this.handleSelectDay} selectedDay={data} />
               {this.renderDia()}
@@ -129,9 +138,6 @@ class Agendamento extends Component {
                 handleClose={this.handleCloseModal}
                 handleConfirm={this.handleConfirm} />
             </StyledContent>
-          </WizardStep>
-          <WizardStep id={1} title="Profissionais">
-            <h1>Profissionais</h1>
           </WizardStep>
           <WizardStep id={2} title="Resumo">
             <h1>Resumo</h1>

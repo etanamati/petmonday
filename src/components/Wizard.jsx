@@ -1,12 +1,6 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
-import styled from 'styled-components';
 import WizzardStep from './WizardStep';
-const StyledHeader = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-`;
 
 class Wizzard extends Component {
 
