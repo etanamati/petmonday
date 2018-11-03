@@ -10,11 +10,11 @@ class Wizzard extends Component {
     direction: null
   }
 
-  handleSelect = (currentState) => {
-    if ((this.state.currentState < currentState && this.props.canChange())
-      || (this.state.currentState > currentState)) {
+  handleSelect = (newState) => {
+    if ((this.state.currentState < newState && this.props.canChange(this.state.currentState, newState))
+      || (this.state.currentState > newState)) {
       this.setState({
-        currentState
+        currentState: newState
       });
     }
   }
@@ -33,9 +33,9 @@ class Wizzard extends Component {
               </Button>
             </li> :
             <li className="wizard-step" key={step.props.id}>
-            <Button variant="secondary" onClick={() => this.handleSelect(step.props.id)} className="wizard-step-link">
-              {step.props.title}
-            </Button>
+              <Button variant="secondary" onClick={() => this.handleSelect(step.props.id)} className="wizard-step-link">
+                {step.props.title}
+              </Button>
             </li>)
           })}
             
@@ -46,7 +46,9 @@ class Wizzard extends Component {
 
   renderContent = (children) => {
     const activeState = children.find(child => child.props.id === this.state.currentState);
-    return activeState;
+    return <div>
+      {activeState}
+    </div>;
   }
 
   render() {

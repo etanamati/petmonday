@@ -2,9 +2,10 @@ import firebase from 'firebase';
 import AuthService from './AuthService';
 
 const AgendamentoService = {
-  getAgendamentos: (estabelecimento, data) => {
+  getAgendamentos: (estabelecimento, profissional, data) => {
     const query = firebase.firestore().collection(`/agendamentos`)
     .where('estabelecimento', '==', estabelecimento)
+    .where('profissional', '==', profissional)
     .where('data', '==', data);
 
     return (query)
@@ -15,7 +16,7 @@ const AgendamentoService = {
         return agendamentos;
       });
   },
-  agendar: (data, hora, estabelecimento) => {
+  agendar: ({data, hora, estabelecimento, profissional, observacao}) => {
     const newPostKey = firebase.database().ref().child('agendamentos').push().key;
     const currentUser = AuthService.getCurrentUser();
         if (!currentUser)
@@ -24,6 +25,7 @@ const AgendamentoService = {
             .set({data,
                   hora,
                   estabelecimento,
+                  profissional,
                   usuario:currentUser.uid}, {merge: true})
   }
 };

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import img from './img/home.jpg';
+import img from '../assets/img/home.jpg';
 import { Button, Form, Col } from 'react-bootstrap';
 import CidadeService from '../services/CidadeService';
 
