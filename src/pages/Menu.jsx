@@ -27,6 +27,8 @@ class Menu extends Component {
       <Navbar bg="primary" variant="dark">
         <Nav className="mr-auto">
           <NavLink to="/" className="navbar-brand">PetMonday</NavLink>
+          {this.props.cidade ? <NavLink to="/cidade" className="navbar-brand">Agendamento</NavLink> : null}
+          
         </Nav>
         <Nav className="ml-auto">
           {this.renderLogin()}
@@ -41,7 +43,8 @@ Menu.propTypes = {
 }
 
 const mapStateToProps = store => ({
-  usuarioLogado: store.usuario.usuarioLogado
+  usuarioLogado: store.usuario.usuarioLogado,
+  cidade: store.cidade.cidadeSelecionada
 })
 
 const ConnectedComponent = connect(mapStateToProps)(Menu);

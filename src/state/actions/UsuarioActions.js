@@ -13,18 +13,7 @@ const usuarioLogin = (usuario) => dispatch => {
 
 const usuarioLogout = () => dispatch => dispatch({type: Types.USUARIO_LOGOUT});
 
-const updateUsuario = (usuario) => {
-  return UserService.updateUserData(usuario)
-    .then(() => {
-      return {
-        type: Types.USUARIO_UPDATE,
-        payload: usuario
-      }
-    });
-}
-
 export {
   usuarioLogin,
-  usuarioLogout,
-  updateUsuario
+  usuarioLogout
 }

@@ -16,7 +16,6 @@ const handlerUsuarioLogout = (state, action) => ({
 
 const handlers = {
   [Types.USUARIO_LOGIN]: handlerUsuarioLogin,
-  [Types.USUARIO_UPDATE]: handlerUsuarioLogin,
   [Types.USUARIO_LOGOUT]: handlerUsuarioLogout
 };
 

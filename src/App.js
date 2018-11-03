@@ -31,7 +31,7 @@ class App extends Component {
             <Menu />
             <Switch>
               <Route path="/" exact component={Home} />
-              <Route path="/cidade/:id" exact component={Cidade} />
+              <Route path="/cidade" exact component={Cidade} />
               <Route path="/agendamento/:id" exact component={AgendamentoWizard} />
               <Route component={NotFound} />
             </Switch>

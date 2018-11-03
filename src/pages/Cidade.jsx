@@ -1,3 +1,4 @@
+import {connect} from 'react-redux';
 import React, {Component} from 'react';
 import {
   Container,
@@ -12,7 +13,7 @@ class Cidade extends Component {
   };
   
   componentDidMount(){
-    EstabelecimentoService.getEstabelecimentos({uid: this.props.match.params.id})
+    EstabelecimentoService.getEstabelecimentos({uid: this.props.cidade.uid})
       .then((estabelecimentos => this.setState({estabelecimentos})));
   }
 
@@ -38,4 +39,9 @@ class Cidade extends Component {
   }
 }
 
-export default Cidade;
+const mapStateToProps = (store) => ({
+  cidade: store.cidade.cidadeSelecionada
+});
+
+const ConnectedComponent = connect(mapStateToProps, null)(Cidade);
+export {ConnectedComponent as default, Cidade};

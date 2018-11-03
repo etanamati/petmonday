@@ -1,8 +1,10 @@
+import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import img from '../assets/img/home.jpg';
 import { Button, Form, Col } from 'react-bootstrap';
 import CidadeService from '../services/CidadeService';
+import { selecionarCidade } from '../state/actions/CidadeActions';
 
 const StyledContent = styled.div`
     background-image: url(${img});
@@ -21,43 +23,50 @@ const StyledForm = styled(Form)`
 
 class Home extends Component {
   state = {
-    cidades: [],
-    selecionada: undefined
+    cidades: []
   }
 
-  componentDidMount(){
-    CidadeService.getCidades().then((cidades) => this.setState({cidades}));
+  componentDidMount() {
+    CidadeService.getCidades().then((retorno) => {
+      const cidades = retorno.reduce((obj, current) =>
+        ({ ...obj, [current.uid]: current }), {});
+      this.setState({ cidades })
+    });
   }
 
   renderOpcoesCidade = () => {
-    return (this.state.cidades.map(cidade => <option key={cidade.uid} value={cidade.uid}>{cidade.descricao}</option>));
+    const { cidades } = this.state;
+    const arrayCidades = Object.keys(cidades).map(cidadesId => cidades[cidadesId]);
+    return (arrayCidades.map(cidade => <option key={cidade.uid} value={cidade.uid}>{cidade.descricao}</option>));
   }
 
   onChange = (event) => {
-    this.setState({selecionada: event.target.value})
+    const {cidades} = this.state;
+    this.props.selecionarCidade(cidades[event.target.value]);
   }
 
   onClick = () => {
-    this.props.history.push(`/cidade/${this.state.selecionada}`);
+    this.props.history.push(`/cidade`);
   }
 
-  isButtonEnable = () => this.state.selecionada ? true : false;
+  isButtonEnable = () => this.props.cidade ? true : false;
 
   render() {
+    const {cidade} = this.props;
     return (
       <StyledContent>
         <StyledForm>
           <Form.Row>
             <Col>
               <Form.Control as="select" onChange={this.onChange}
-              value={this.state.selecionada}>
+                value={cidade ? cidade.uid : undefined}>
                 <option value="">Escolha sua cidade</option>
                 {this.renderOpcoesCidade()}
               </Form.Control>
             </Col>
             <Col>
               <Button variant={this.isButtonEnable() ? "primary" : "secondary"} disabled={!this.isButtonEnable()} onClick={this.onClick}>
-                <i className="fa fa-search"/>
+                <i className="fa fa-search" />
                 Selecione
               </Button>
             </Col>
@@ -68,4 +77,9 @@ class Home extends Component {
   }
 }
 
-export default Home;
+const mapDispatchToProps = store => ({
+  cidade: store.cidade.cidadeSelecionada
+});
+
+const ConnectedComponent = connect(mapDispatchToProps, { selecionarCidade })(Home);
+export { ConnectedComponent as default, Home };
