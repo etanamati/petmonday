@@ -1,17 +1,22 @@
 import UserService from '../../services/UserService';
+import AuthService from '../../services/AuthService';
 import * as Types from '../types/UsuarioTypes';
 
-const usuarioLogin = (usuario) => dispatch => {
-  return UserService.getUserData(usuario.uid)
-    .then((usuarioAtualizado) => {
-      dispatch ({
+const usuarioLogin = () => dispatch => {
+  return AuthService.loginWithGoogle()
+    .then((retorno) => UserService.getUserData(retorno.uid))
+    .then((usuario => {
+      dispatch({
         type: Types.USUARIO_LOGIN,
-        payload: usuarioAtualizado
+        payload: usuario
       })
-    });
+    }));
 }
 
-const usuarioLogout = () => dispatch => dispatch({type: Types.USUARIO_LOGOUT});
+const usuarioLogout = () => dispatch => {
+  return AuthService.logout()
+    .then(() => dispatch({ type: Types.USUARIO_LOGOUT }));
+};
 
 export {
   usuarioLogin,

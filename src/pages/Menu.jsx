@@ -3,26 +3,18 @@ import React, {Component} from 'react';
 import { Navbar, Nav, Button } from 'react-bootstrap';
 import {NavLink} from 'react-router-dom';
 import PropTypes from 'prop-types';
-import AuthService from '../services/AuthService';
+import {usuarioLogin, usuarioLogout} from '../state/actions/UsuarioActions';
 
 class Menu extends Component {
-  onLogin = () => {
-    AuthService.loginWithGoogle();
-  }
-
-  onLogout = () => {
-    AuthService.logout()
-  };
-
   renderLogin = () => {
-    const { usuarioLogado } = this.props;
+    const {usuarioLogado, usuarioLogin, usuarioLogout} = this.props;
+    
     const logado = usuarioLogado !== undefined;
-    return logado ? (<Button variant="danger" onClick={this.onLogout}>Sair</Button>)
-    : <Button variant="success" onClick={this.onLogin}>Login</Button>;
+    return logado ? (<Button variant="danger" onClick={usuarioLogout}>Sair</Button>)
+    : <Button variant="success" onClick={usuarioLogin}>Login</Button>;
   }
 
   render(){
-    
     return (
       <Navbar bg="primary" variant="dark">
         <Nav className="mr-auto">
@@ -47,5 +39,5 @@ const mapStateToProps = store => ({
   cidade: store.cidade.cidadeSelecionada
 })
 
-const ConnectedComponent = connect(mapStateToProps)(Menu);
+const ConnectedComponent = connect(mapStateToProps, {usuarioLogin, usuarioLogout})(Menu);
 export {ConnectedComponent as default, Menu};
